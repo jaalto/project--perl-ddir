@@ -57,7 +57,7 @@ use vars qw ( $VERSION );
 #   The following variable is updated by custom Emacs setup whenever
 #   this file is saved.
 
-my $VERSION = '2010.0315.1050';
+my $VERSION = '2010.0315.1113';
 
 my $DEFAULT_PATH_EXCLUDE = ''		# Matches *only path component
     . '(CVS|RCS|\.(bzr|svn|git|darcs|arch|mtn|hg))$'
@@ -130,7 +130,7 @@ ddir - Display DOS style hierarchical directory tree
 
 Display an indented directory tree, using ASCII graphical character to
 represent hierarchical sturucture. The directories to include or
-exlude can be speficied with command line options. A Perl
+exlude can be specified with command line options. A Perl
 implementation of the tree(1) program.
 
 =head1 OPTIONS
