@@ -57,7 +57,7 @@ use vars qw ( $VERSION );
 #   The following variable is updated by custom Emacs setup whenever
 #   this file is saved.
 
-my $VERSION = '2010.0315.1036';
+my $VERSION = '2010.0315.1040';
 
 my $DEFAULT_PATH_EXCLUDE = ''		# Matches *only path component
     . '(CVS|RCS|\.(bzr|svn|git|darcs|arch|mtn|hg))$'
@@ -328,7 +328,6 @@ sub HandleCommandLineArgs ()
         $verb
         $debug
         @OPT_FILE_REGEXP_EXCLUDE
-        $OPT_EXCLUDE_VCS
         $OPT_FILE
     );
 
@@ -340,7 +339,7 @@ sub HandleCommandLineArgs ()
     ));
 
     my ( $help, $helpMan, $helpHtml, $version ); # local variables to function
-    my ( $helpExclude, $excludeVcs , $optDir );
+    my ( $helpExclude, $excludeVcs , $optDir, $optVcs );
 
     $debug = -1;
     $OPT_FILE = 1;
@@ -355,7 +354,7 @@ sub HandleCommandLineArgs ()
 	, "v|verbose:i"	        => \$verb
 	, "V|version"	        => \$version
 	, "x|exclude=s"	        => \@OPT_FILE_REGEXP_EXCLUDE
-	, "X|exclude-vcs"       => \$OPT_EXCLUDE_VCS
+	, "X|exclude-vcs"       => \$optVcs
     );
 
     $version		and  die "$VERSION $CONTACT $LICENSE $URL\n";
@@ -369,6 +368,46 @@ sub HandleCommandLineArgs ()
     $debug = 0          if $debug < 0;
 
     $OPT_FILE = 0	if $optDir;
+
+    push @OPT_FILE_REGEXP_EXCLUDE, $DEFAULT_PATH_EXCLUDE if $optVcs;
+}
+
+
+# ****************************************************************************
+#
+#   DESCRIPTION
+#
+#       Check if FILE matches exclude regexps.
+#
+#   INPUT PARAMETERS
+#
+#       $	Filename
+#
+#   RETURN VALUES
+#
+#       true	File in exclude list
+#       false	File NOT in exclude list
+#
+# ****************************************************************************
+
+sub IsExclude ($)
+{
+    my $id = "$LIB.IsExclude";
+    local $ARG = shift;
+
+    @OPT_FILE_REGEXP_EXCLUDE  or  return 0;
+
+    for my $re ( @OPT_FILE_REGEXP_EXCLUDE )
+    {
+
+	if ( /$re/ )
+	{
+	    $verb > 2  and  print "$id: '$re' matches: $ARG\n";
+	    return 1
+	}
+    }
+
+    return 0;
 }
 
 # ****************************************************************************
@@ -392,6 +431,7 @@ sub HandleCommandLineArgs ()
 
 sub Resolve ($$)
 {
+    my $id = "$LIB.Resolve";
     my ( $file, $direct ) = @ARG;
 
     $ARG = $file;        # DO NOT 'local' this variable.
@@ -430,6 +470,7 @@ sub Tree ($$);   # Forward declaration for recursive use.
 
 sub Tree ($$)
 {
+    my $id = "$LIB.Tree";
     my ( $dir, $level ) = @ARG;
 
     local *DIRECT;
@@ -448,7 +489,9 @@ sub Tree ($$)
         #  Skip directories .  and  ..
         next if $name =~ /^\.\.?$/;
 
-        Resolve $name, $dir;
+        $ARG = Resolve $name, $dir;
+
+	next if IsExclude $ARG;
 
 	if ( $OPT_FILE  and  -f )
 	{
