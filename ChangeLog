@@ -1,0 +1,14 @@
+2010-03-15 Mon  Jari Aalto  <jari.aalto@cante.net>
+
+	* bin/ddir.pl:
+	Set up roject at github.com.
+	(top level): Add proper function banners.
+
+2003-01-28  Jari Aalto  <jari.aalto@cante.net>
+
+        * bin/ddir.pl: Do not use #!/usr/local/bin/perl, but
+        only #!perl. Suppose perl is along path.
+
+1995-05-17 Thu  Jari Aalto  <jari.aalto@cante.net>
+
+        * bin/ddir.pl: Initial version.

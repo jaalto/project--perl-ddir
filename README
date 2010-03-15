@@ -1,0 +1,34 @@
+README: ddir - Display DOS style hierarchical directory tree
+----------------------------------------------------------------
+
+Display an indented directory tree, using ASCII graphical character to
+represent hierarchical sturucture. The directories to include or
+exlude can be speficied with command line options. A Perl
+implementation of the tree(1) program.
+
+The source package directories:
+
+    bin/            The program and manual page (*.1)
+    doc/            Documentation
+
+Important files
+
+    COPYING         GPL v2 or later Licence
+    INSTALL         Install instructions
+    ChangeLog       Project change records
+
+Project details
+
+    Homepage
+      http://freshmeat.net/projects/ddir
+
+    To report bugs
+      See freshmeat page
+
+    Source code repository
+      See freshmeat page
+
+    Depends
+      Perl (any version). Uses only standard Perl libraries.
+
+End of file
