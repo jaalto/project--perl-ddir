@@ -57,7 +57,7 @@ use vars qw ( $VERSION );
 #   The following variable is updated by custom Emacs setup whenever
 #   this file is saved.
 
-my $VERSION = '2010.0315.1026';
+my $VERSION = '2010.0315.1036';
 
 my $DEFAULT_PATH_EXCLUDE = ''		# Matches *only path component
     . '(CVS|RCS|\.(bzr|svn|git|darcs|arch|mtn|hg))$'
@@ -329,6 +329,7 @@ sub HandleCommandLineArgs ()
         $debug
         @OPT_FILE_REGEXP_EXCLUDE
         $OPT_EXCLUDE_VCS
+        $OPT_FILE
     );
 
     Getopt::Long::config( qw
@@ -339,21 +340,22 @@ sub HandleCommandLineArgs ()
     ));
 
     my ( $help, $helpMan, $helpHtml, $version ); # local variables to function
-    my ( $helpExclude, $excludeVcs );
+    my ( $helpExclude, $excludeVcs , $optDir );
 
     $debug = -1;
+    $OPT_FILE = 1;
 
     GetOptions      # Getopt::Long
     (
-	  "d|debug:i"	    => \$debug
-	, "help-exclude"    => \$helpExclude
-	, "help-html"	    => \$helpHtml
-	, "help-man"	    => \$helpMan
-	, "h|help"	    => \$help
-	, "v|verbose:i"	    => \$verb
-	, "V|version"	    => \$version
-	, "x|exclude=s"	    => \@OPT_FILE_REGEXP_EXCLUDE
-	, "X|exclude-vcs"   => \$OPT_EXCLUDE_VCS
+	  "dir"			=> \$optDir
+	, "help-exclude"	=> \$helpExclude
+	, "help-html"		=> \$helpHtml
+	, "help-man"	        => \$helpMan
+	, "h|help"	        => \$help
+	, "v|verbose:i"	        => \$verb
+	, "V|version"	        => \$version
+	, "x|exclude=s"	        => \@OPT_FILE_REGEXP_EXCLUDE
+	, "X|exclude-vcs"       => \$OPT_EXCLUDE_VCS
     );
 
     $version		and  die "$VERSION $CONTACT $LICENSE $URL\n";
@@ -365,6 +367,8 @@ sub HandleCommandLineArgs ()
 
     $debug = 1          if $debug == 0;
     $debug = 0          if $debug < 0;
+
+    $OPT_FILE = 0	if $optDir;
 }
 
 # ****************************************************************************
@@ -428,6 +432,8 @@ sub Tree ($$)
 {
     my ( $dir, $level ) = @ARG;
 
+    local *DIRECT;
+
     unless ( opendir DIRECT, $dir )
     {
         warn "Could not open directory $dir\n";
@@ -444,7 +450,13 @@ sub Tree ($$)
 
         Resolve $name, $dir;
 
-        if ( -d )
+	if ( $OPT_FILE  and  -f )
+	{
+	    s,.*/,,;
+
+	    print "$level$ARG\n";
+	}
+        elsif ( -d )
         {
             my $newname = $ARG;
 
@@ -452,7 +464,7 @@ sub Tree ($$)
             {
                  #   Do not follow symlinks
 
-                 $newname = readlink($ARG);
+                 $newname = readlink $ARG;
                  print "$level+--$name -> $newname\n";
             }
             elsif ( -r _ && -x _ )
