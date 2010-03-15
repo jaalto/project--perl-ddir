@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 #
-#   copyright-update -- Utility to update copyright information in files
+#   ddir - Display DOS style hierarchical directory tree
 #
 #   Copyright
 #
@@ -57,7 +57,7 @@ use vars qw ( $VERSION );
 #   The following variable is updated by custom Emacs setup whenever
 #   this file is saved.
 
-my $VERSION = '2010.0315.1043';
+my $VERSION = '2010.0315.1050';
 
 my $DEFAULT_PATH_EXCLUDE = ''		# Matches *only path component
     . '(CVS|RCS|\.(bzr|svn|git|darcs|arch|mtn|hg))$'
