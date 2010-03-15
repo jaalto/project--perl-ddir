@@ -3,7 +3,7 @@ README: ddir - Display DOS style hierarchical directory tree
 
 Display an indented directory tree, using ASCII graphical character to
 represent hierarchical sturucture. The directories to include or
-exlude can be speficied with command line options. A Perl
+exlude can be specified with command line options. A Perl
 implementation of the tree(1) program.
 
 The source package directories:
