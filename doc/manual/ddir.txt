@@ -7,7 +7,7 @@ SYNOPSIS
 DESCRIPTION
     Display an indented directory tree, using ASCII graphical character to
     represent hierarchical sturucture. The directories to include or exlude
-    can be speficied with command line options. A Perl implementation of the
+    can be specified with command line options. A Perl implementation of the
     tree(1) program.
 
 OPTIONS
