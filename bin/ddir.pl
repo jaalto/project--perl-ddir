@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 #
-#   ddir - Display DOS style hierarchical directory tree
+#   ddir - Displayhierarchical directory tree
 #
 #   Copyright
 #
@@ -57,7 +57,7 @@ use vars qw ( $VERSION );
 #   The following variable is updated by custom Emacs setup whenever
 #   this file is saved.
 
-my $VERSION = '2010.0315.1113';
+my $VERSION = '2010.0315.2130';
 
 my $DEFAULT_PATH_EXCLUDE = ''		# Matches *only path component
     . '(CVS|RCS|\.(bzr|svn|git|darcs|arch|mtn|hg))$'
@@ -120,7 +120,7 @@ sub Initialize ()
 
 =head1 NAME
 
-ddir - Display DOS style hierarchical directory tree
+ddir - display hierarchical directory tree
 
 =head1 SYNOPSIS
 
@@ -128,9 +128,9 @@ ddir - Display DOS style hierarchical directory tree
 
 =head1 DESCRIPTION
 
-Display an indented directory tree, using ASCII graphical character to
-represent hierarchical sturucture. The directories to include or
-exlude can be specified with command line options. A Perl
+Display an indented directory tree using ASCII graphical characters to
+represent the hierarchical structure. The directories to include or
+exclude can be specified with command line options. Ddir is a Perl
 implementation of the tree(1) program.
 
 =head1 OPTIONS
