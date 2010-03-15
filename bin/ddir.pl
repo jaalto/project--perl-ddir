@@ -57,7 +57,7 @@ use vars qw ( $VERSION );
 #   The following variable is updated by custom Emacs setup whenever
 #   this file is saved.
 
-my $VERSION = '2010.0315.1025';
+my $VERSION = '2010.0315.1026';
 
 my $DEFAULT_PATH_EXCLUDE = ''		# Matches *only path component
     . '(CVS|RCS|\.(bzr|svn|git|darcs|arch|mtn|hg))$'
@@ -95,7 +95,7 @@ sub Initialize ()
     $PROGNAME   = $LIB;
 
     $CONTACT     = "Jari Aalto";
-    $URL         = "http://freshmeat.net/projects/perl-dir";
+    $URL         = "http://freshmeat.net/projects/ddir";
 
     $OUTPUT_AUTOFLUSH = 1;
 }
