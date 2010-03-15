@@ -2,7 +2,13 @@
 
 	* bin/ddir.pl:
 	Set up roject at github.com.
-	(top level): Add proper function banners.
+	(top level): Add proper function banners. GPL etc.
+	(top level::Standard perl modules): Add many more modules.
+	(top level::Globals): Add version variable.
+	(Initialize): New.
+	(Help): New. Convert old roff into POD. Add many, many options.
+	(HelpExclude): New.
+	(HandleCommandLineArgs): New.
 
 2003-01-28  Jari Aalto  <jari.aalto@cante.net>
 
