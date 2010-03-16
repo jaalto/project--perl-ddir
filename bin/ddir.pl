@@ -57,7 +57,7 @@ use vars qw ( $VERSION );
 #   The following variable is updated by custom Emacs setup whenever
 #   this file is saved.
 
-my $VERSION = '2010.0315.2130';
+my $VERSION = '2010.0316.1052';
 
 my $DEFAULT_PATH_EXCLUDE = ''		# Matches *only path component
     . '(CVS|RCS|\.(bzr|svn|git|darcs|arch|mtn|hg))$'
@@ -483,7 +483,7 @@ sub Tree ($$)
         return;
     }
 
-    my @files = readdir DIRECT ;
+    my @files = sort  readdir DIRECT ;
     local $ARG;
 
     while ( my $name = shift @files )

@@ -1,3 +1,7 @@
+2010-03-16 Tue  Jari Aalto  <jari.aalto@cante.net>
+
+	* bin/ddir.pl (Tree): Sort directory entries.
+
 2010-03-15 Mon  Jari Aalto  <jari.aalto@cante.net>
 
 	* bin/ddir.pl:
