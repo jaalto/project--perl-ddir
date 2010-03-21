@@ -483,8 +483,20 @@ sub Tree ($$)
         return;
     }
 
-    my @files = sort  readdir DIRECT ;
+    my @files = readdir DIRECT ;
+
+    # sort out non-dirs to display first, then directories.
+
     local $ARG;
+    my ( @d, @f);
+
+    for ( @files )
+    {
+	-d "$dir/$ARG" and  push(@d, $ARG), next;
+	push @f, $ARG;
+    }
+
+    @files = (sort(@f), sort (@d));		# Rearrange nicely
 
     while ( my $name = shift @files )
     {

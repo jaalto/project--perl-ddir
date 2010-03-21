@@ -1,3 +1,10 @@
+2010-03-21 Sun  Jari Aalto  <jari.aalto@cante.net>
+
+	* bin/ddir.pl (Tree): display non-directories
+	first, then directories. Previously printed
+	all entries in alphabetical order regardless of
+	the type.
+
 2010-03-16 Tue  Jari Aalto  <jari.aalto@cante.net>
 
 	* bin/ddir.pl (Tree): Sort directory entries.
