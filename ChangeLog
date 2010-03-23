@@ -1,3 +1,8 @@
+2010-03-23 Tue  Jari Aalto  <jari.aalto@cante.net>
+
+	* bin/ddir.pl (POD::LICENSE): Chnage wording 'this program' ro
+	'rhis program and its documentation'.
+
 2010-03-21 Sun  Jari Aalto  <jari.aalto@cante.net>
 
 	* bin/ddir.pl (Tree): display non-directories
