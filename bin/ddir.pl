@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 #
-#   ddir - Displayhierarchical directory tree
+#   ddir - Display hierarchical directory tree
 #
 #   Copyright
 #
@@ -57,7 +57,7 @@ use vars qw ( $VERSION );
 #   The following variable is updated by custom Emacs setup whenever
 #   this file is saved.
 
-my $VERSION = '2010.0316.1052';
+my $VERSION = '2010.0323.0742';
 
 my $DEFAULT_PATH_EXCLUDE = ''		# Matches *only path component
     . '(CVS|RCS|\.(bzr|svn|git|darcs|arch|mtn|hg))$'
@@ -234,9 +234,10 @@ Copyright (C) 1994 Brian Blackmore.
 
 =head1 LICENSE
 
-This program is free software; you can redistribute and/or modify
-program under the terms of GNU General Public license either version 2
-of the License, or (at your option) any later version.
+This program and its documentation is free software; you can
+redistribute and/or modify program under the terms of GNU General
+Public license either version 2 of the License, or (at your option)
+any later version.
 
 =cut
 
