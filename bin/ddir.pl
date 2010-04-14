@@ -57,7 +57,7 @@ use vars qw ( $VERSION );
 #   The following variable is updated by custom Emacs setup whenever
 #   this file is saved.
 
-my $VERSION = '2010.0404.0635';
+my $VERSION = '2010.0414.1424';
 
 my $DEFAULT_PATH_EXCLUDE = ''		# Matches *only path component
     . '(CVS|RCS|\.(bzr|svn|git|darcs|arch|mtn|hg))$'
