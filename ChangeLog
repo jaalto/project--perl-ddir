@@ -1,5 +1,17 @@
 2010-04-14 Wed  Jari Aalto  <jari.aalto@cante.net>
 
+	* Makefile: (top level): Completely rework the documentation
+	installation. Add "# Rule:" documentation blocks to the targets.
+	(all): call target 'doc'.
+	(docdir): New target, and variable.
+	(XARGS): New variable.
+	(INSTALL_DIR): New variable.
+	(PERL): New variable.
+	(clean): use find(1).
+
+	* INSTALL (INSTALL): (Manual install): adjust wording.
+	(License): Add "by" to the sentence.
+
 	* bin/ddir.pl (Main): Use current dir as the default argument.
 	(Help::DESCRIPTION): Explain the name "ddir".
 	(Help::SEE ALSO: Add dir(1), wcd(1).

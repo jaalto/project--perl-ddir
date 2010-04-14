@@ -66,6 +66,7 @@ INSTALL		= /usr/bin/install
 INSTALL_BIN	= $(INSTALL) -m 755
 INSTALL_DATA	= $(INSTALL) -m 644
 INSTALL_SUID	= $(INSTALL) -m 4755
+INSTALL_DIR	= $(INSTALL) -m 755 -d
 
 DIST_DIR	= ../build-area
 DATE		= `date +"%Y.%m%d"`
@@ -79,23 +80,38 @@ INSTALL_OBJS_BIN   = $(PL_SCRIPT)
 INSTALL_OBJS_DOC   = README COPYING
 INSTALL_OBJS_MAN   = bin/*.1
 
-all:
-	@echo "Nothing to compile."
-	@echo "Try 'make help' or 'make -n DESTDIR= prefix=/usr/local install'"
+XARGS		= xargs xargs --no-run-if-empty
+PERL		= perl
 
-# Rule: help - display Makefile rules
+# Do not chnage this. This is the location of "local" auto generated
+# files. Fromt here the fle are installed to $(DOCDIR)
+
+docdir = doc/manual
+manpage = bin/$(PACKAGE).1
+
+all: doc
+	# target: all
+	@echo "For more information, see 'make help'"
+
+# Rule: help - Display Makefile rules
 help:
-	grep "^# Rule:" Makefile | sort
+	grep "^[[:space:]]*# Rule:" Makefile | sed 's/^[[:space:]]*//' | sort
 
 # Rule: clean - remove temporary files
 clean:
-	# clean
-	-rm -f *[#~] *.\#* \
-	*.x~~ pod*.tmp
+	# target: clean
+	find .	-name "*[#~]" \
+		-o -name "*.\#*" \
+		-o -name "*.x~~" \
+		-o -name "pod*.tmp" | \
+	$(XARGS) rm -f
 
 	rm -rf tmp
 
 distclean: clean
+	# Rule: distclean - remove everything that can be generated
+	rm -f $(manpage)
+	rm -rf $(docdir)
 
 realclean: clean
 
@@ -115,7 +131,7 @@ dist-git: test doc
 dist-snap: test doc
 	@echo gt tar -q -z -p $(PACKAGE) -c -D master
 
-# Rule: dist - [maintainer] release from Git repository
+# Rule: dist-git - [maintainer] make release archive
 dist: dist-git
 
 dist-ls:
@@ -124,15 +140,22 @@ dist-ls:
 # Rule: dist - [maintainer] list of release files
 ls: dist-ls
 
-bin/$(PACKAGE).1: $(PL_SCRIPT)
+docdir:
+	# target: docdir - create documentation output directory
+	$(INSTALL_DIR) $(docdir)
+
+$(manpage): $(PL_SCRIPT)
+	# target: bin/$(PACKAGE).1
 	$(PERL) $< --help-man > $@
 	@-rm -f *.x~~ pod*.tmp
 
 doc/manual/$(PACKAGE).html: $(PL_SCRIPT)
+	# target: doc/manual/$(PACKAGE).html
 	$(PERL) $< --help-html > $@
 	@-rm -f *.x~~ pod*.tmp
 
 doc/manual/$(PACKAGE).txt: $(PL_SCRIPT)
+	# target: doc/manual/$(PACKAGE).txt
 	$(PERL) $< --help > $@
 	@-rm -f *.x~~ pod*.tmp
 
@@ -140,26 +163,30 @@ doc/conversion/index.html: doc/conversion/index.txt
 	perl -S t2html.pl --Auto-detect --Out --print-url $<
 
 # Rule: man - Generate or update manual page
-man: bin/$(PACKAGE).1
+man: docdir $(manpage)
 
-html: doc/manual/$(PACKAGE).html
+# Rule: html - Generate HTML pages
+html: docdir test-pod doc/manual/$(PACKAGE).html
 
-txt: doc/manual/$(PACKAGE).txt
+# Rule: txt - Generate TXT pages
+txt: docdir test-pod doc/manual/$(PACKAGE).txt
 
 # Rule: doc - Generate or update all documentation
 doc: man html txt
 
-# Rule: perl-test - Check program syntax
-perl-test:
-	# perl-test - Check syntax
-	perl -cw $(PL_SCRIPT)
+test-pod:
+	# Rule: pod-test - Check POD syntax
 	podchecker $(PL_SCRIPT)
 
-# Rule: test - Run tests
-test: perl-test
+test-perl:
+	# Rule: perl-test - Check program syntax
+	perl -cw $(PL_SCRIPT)
 
+# Rule: test - Run all tests
+test: test-perl test-pod
+
+# Rule: install-doc - Install documentation
 install-doc:
-	# Rule install-doc - Install documentation
 	$(INSTALL_BIN) -d $(DOCDIR)
 
 	[ ! "$(INSTALL_OBJS_DOC)" ] || \
@@ -169,12 +196,12 @@ install-doc:
 	$(TAR) -C $(DOCDIR) --extract --file=-
 
 install-man: man
-	# install-man - Install manual pages
+	# Rule: install-man - Install manual pages
 	$(INSTALL_BIN) -d $(MANDIR1)
 	$(INSTALL_DATA) $(INSTALL_OBJS_MAN) $(MANDIR1)
 
 install-bin:
-	# install-bin - Install programs
+	# Rule: install-bin - Install programs
 	$(INSTALL_BIN) -d $(BINDIR)
 	for f in $(INSTALL_OBJS_BIN); \
 	do \
@@ -182,10 +209,10 @@ install-bin:
 		$(INSTALL_BIN) $$f $(BINDIR)/$$dest; \
 	done
 
-# Rule: install - Standard install
+# Rule: install - Standard install. Use variables like: DESTDIR= prefix=/usr/local
 install: install-bin install-man install-doc
 
-# Rule: install-test - for Maintainer only
+# Rule: install-test - [maintainer] Dry-run install to tmp/ directory
 install-test:
 	rm -rf tmp
 	make DESTDIR=`pwd`/tmp prefix=/usr install
