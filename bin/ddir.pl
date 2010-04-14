@@ -57,7 +57,7 @@ use vars qw ( $VERSION );
 #   The following variable is updated by custom Emacs setup whenever
 #   this file is saved.
 
-my $VERSION = '2010.0323.0742';
+my $VERSION = '2010.0404.0635';
 
 my $DEFAULT_PATH_EXCLUDE = ''		# Matches *only path component
     . '(CVS|RCS|\.(bzr|svn|git|darcs|arch|mtn|hg))$'
@@ -124,14 +124,15 @@ ddir - display hierarchical directory tree
 
 =head1 SYNOPSIS
 
-  ddir [options] DIR
+  ddir [options] [DIR]
 
 =head1 DESCRIPTION
 
 Display an indented directory tree using ASCII graphical characters to
-represent the hierarchical structure. The directories to include or
-exclude can be specified with command line options. Ddir is a Perl
-implementation of the tree(1) program.
+represent the hierarchical structure. The directories to include or exclude
+can be specified with command line options. Ddir is a Perl implementation
+of the tree(1) program. The extra "d" in front of name was used to
+differentiating the utility from an existing dir(1) program.
 
 =head1 OPTIONS
 
@@ -217,7 +218,9 @@ None.
 
 =head1 SEE ALSO
 
+dir(1)
 tree(1)
+wcd(1)
 
 =head1 COREQUISITES
 
@@ -257,7 +260,7 @@ sub Help (;$$)
         $EVAL_ERROR  and  die "$id: Cannot generate Man: $EVAL_ERROR";
 
         my %options;
-        $options{center} = 'cvs status - formatter';
+        $options{center} = "User commands";
 
         my $parser = Pod::Man->new(%options);
         $parser->parse_from_file ($PROGRAM_NAME);
@@ -569,7 +572,7 @@ sub Main ()
     Initialize();
     HandleCommandLineArgs();
 
-    my $dir = $ARGV[0] or die "Missing directory argument. See --help.\n";
+    my $dir = $ARGV[0] || ".";
 
     print "$dir\n";
     Tree $dir, "";

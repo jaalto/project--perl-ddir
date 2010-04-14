@@ -1,7 +1,22 @@
+2010-04-14 Wed  Jari Aalto  <jari.aalto@cante.net>
+
+	* bin/ddir.pl (Main): Use current dir as the default argument.
+	(Help::DESCRIPTION): Explain the name "ddir".
+	(Help::SEE ALSO: Add dir(1), wcd(1).
+
+2010-04-04 Sun  Jari Aalto  <jari.aalto@cante.net>
+
+	* bin/ddir.pl (Help): Correct manual page string that appears in
+	the center.
+
+2010-03-24 Wed  Jari Aalto  <jari.aalto@cante.net>
+
+	* README (README): Add Copyright and license.
+
 2010-03-23 Tue  Jari Aalto  <jari.aalto@cante.net>
 
-	* bin/ddir.pl (POD::LICENSE): Chnage wording 'this program' ro
-	'rhis program and its documentation'.
+	* bin/ddir.pl (POD::LICENSE): Change wording 'this program' to
+	'this program and its documentation'.
 
 2010-03-21 Sun  Jari Aalto  <jari.aalto@cante.net>
 
