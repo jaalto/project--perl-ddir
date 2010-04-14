@@ -10,7 +10,7 @@ differentiating the utility from an existing dir(1) program.
 The source package directories:
 
     bin/            The program and manual page (*.1)
-    doc/            Documentation
+    doc/            Documentation; appears after running "make"
 
 Important files
 
