@@ -1,6 +1,13 @@
+2010-04-15 Thu  Jari Aalto  <jari.aalto@cante.net>
+
+	* bin/ddir.pl
+	(top level): Fix many of the remarks Perl::Critic.
+	(Help): rewrite eval Pod::Man call.
+	(Tree): rewrite 'local' dirhandle to 'my'.
+
 2010-04-14 Wed  Jari Aalto  <jari.aalto@cante.net>
 
-	* Makefile: (top level): Completely rework the documentation
+	* Makefile (top level): Completely rework the documentation
 	installation. Add "# Rule:" documentation blocks to the targets.
 	(all): call target 'doc'.
 	(docdir): New target, and variable.

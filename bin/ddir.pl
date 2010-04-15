@@ -59,8 +59,8 @@ use vars qw ( $VERSION );
 
 my $VERSION = '2010.0414.1424';
 
-my $DEFAULT_PATH_EXCLUDE = ''		# Matches *only path component
-    . '(CVS|RCS|\.(bzr|svn|git|darcs|arch|mtn|hg))$'
+my $DEFAULT_PATH_EXCLUDE =              # Matches *only path component
+    '(CVS|RCS|\.(bzr|svn|git|darcs|arch|mtn|hg))$'
     ;
 
 # ****************************************************************************
@@ -83,14 +83,14 @@ sub Initialize ()
 {
     use vars qw
     (
-        $LIB
-        $PROGNAME
-        $CONTACT
+	$LIB
+	$PROGNAME
+	$CONTACT
 	$LICENSE
-        $URL
+	$URL
     );
 
-    $LICENSE	= "GPL-2+";
+    $LICENSE    = "GPL-2+";
     $LIB        = basename $PROGRAM_NAME;
     $PROGNAME   = $LIB;
 
@@ -160,7 +160,7 @@ Print help in manual page C<man(1)> format.
 
 =item B<-i, --include REGEXP>
 
-Include files mathing regexp. The match is done against whole path. The option
+Include files matching regexp. The match is done against whole path. The option
 can be used multiple times.
 
 If this option is not supplied, every file is automatically included.
@@ -177,7 +177,7 @@ Print contact and version information.
 
 =item B<-x, --exclude REGEXP>
 
-Ignore files mathing regexp. The match is done against whole path. The option
+Ignore files matching regexp. The match is done against whole path. The option
 can be used multiple times.
 
 This option is applied after possible B<--include> matches.
@@ -216,26 +216,36 @@ None.
 
 None.
 
+=head1 EXIT STATUS
+
+Not defined.
+
+=head1 DEPENDENCIES
+
+Uses standard Perl modules.
+
+=head1 BUGS AND LIMITATIONS
+
+None.
+
 =head1 SEE ALSO
 
 dir(1)
 tree(1)
 wcd(1)
 
-=head1 COREQUISITES
-
-Uses standard Perl modules.
-
 =head1 AVAILABILITY
 
 Homepage is at http://freshmeat.net/projects/ddir
 
-=head1 AUTHORS
+=head1 AUTHOR
+
+Jari Aalto
+
+=head1 LICENSE AND COPYRIGHT
 
 Copyright (C) 1995-2010 Jari Aalto.
 Copyright (C) 1994 Brian Blackmore.
-
-=head1 LICENSE
 
 This program and its documentation is free software; you can
 redistribute and/or modify program under the terms of GNU General
@@ -252,28 +262,28 @@ sub Help (;$$)
 
     if ( $type eq -html )
     {
-        pod2html $PROGRAM_NAME;
+	pod2html $PROGRAM_NAME;
     }
     elsif ( $type eq -man )
     {
-	eval "use Pod::Man;";
-        $EVAL_ERROR  and  die "$id: Cannot generate Man: $EVAL_ERROR";
+	eval "use Pod::Man"
+	    or die "$id: Cannot generate Man: $EVAL_ERROR";
 
-        my %options;
-        $options{center} = "User commands";
+	my %options;
+	$options{center} = "User commands";
 
-        my $parser = Pod::Man->new(%options);
-        $parser->parse_from_file ($PROGRAM_NAME);
+	my $parser = Pod::Man->new(%options);
+	$parser->parse_from_file ($PROGRAM_NAME);
     }
     else
     {
-	if ( $^V =~ /5\.10/ )
+	if ( $PERL_VERSION =~ /5\.10/ )
 	{
 	    # Bug in 5.10. Cant use string ("") as a symbol ref
 	    # while "strict refs" in use at
 	    # /usr/share/perl/5.10/Pod/Text.pm line 249.
 
-	    system("pod2text $PROGRAM_NAME");
+	    system "pod2text $PROGRAM_NAME";
 	}
 	else
 	{
@@ -330,50 +340,50 @@ sub HandleCommandLineArgs ()
 
     use vars qw
     (
-        $test
-        $verb
-        $debug
-        @OPT_FILE_REGEXP_EXCLUDE
-        $OPT_FILE
+	$test
+	$verb
+	$debug
+	@OPT_FILE_REGEXP_EXCLUDE
+	$OPT_FILE
     );
 
     Getopt::Long::config( qw
     (
-        require_order
-        no_ignore_case
-        no_ignore_case_always
+	require_order
+	no_ignore_case
+	no_ignore_case_always
     ));
 
     my ( $help, $helpMan, $helpHtml, $version ); # local variables to function
-    my ( $helpExclude, $excludeVcs , $optDir, $optVcs );
+    my ( $helpExclude, $optDir, $optVcs );
 
     $debug = -1;
     $OPT_FILE = 1;
 
     GetOptions      # Getopt::Long
     (
-	  "dir"			=> \$optDir
-	, "help-exclude"	=> \$helpExclude
-	, "help-html"		=> \$helpHtml
-	, "help-man"	        => \$helpMan
-	, "h|help"	        => \$help
-	, "v|verbose:i"	        => \$verb
-	, "V|version"	        => \$version
-	, "x|exclude=s"	        => \@OPT_FILE_REGEXP_EXCLUDE
+	  "dir"                 => \$optDir
+	, "help-exclude"        => \$helpExclude
+	, "help-html"           => \$helpHtml
+	, "help-man"            => \$helpMan
+	, "h|help"              => \$help
+	, "v|verbose:i"         => \$verb
+	, "V|version"           => \$version
+	, "x|exclude=s"         => \@OPT_FILE_REGEXP_EXCLUDE
 	, "X|exclude-vcs"       => \$optVcs
     );
 
-    $version		and  die "$VERSION $CONTACT $LICENSE $URL\n";
-    $helpExclude 	and  HelpExclude();
-    $help		and  Help();
-    $helpMan		and  Help(-man);
-    $helpHtml		and  Help(-html);
-    $version		and  Version();
+    $version            and  die "$VERSION $CONTACT $LICENSE $URL\n";
+    $helpExclude        and  HelpExclude();
+    $help               and  Help();
+    $helpMan            and  Help(-man);
+    $helpHtml           and  Help(-html);
+    $version            and  Version();
 
     $debug = 1          if $debug == 0;
     $debug = 0          if $debug < 0;
 
-    $OPT_FILE = 0	if $optDir;
+    $OPT_FILE = 0       if $optDir;
 
     push @OPT_FILE_REGEXP_EXCLUDE, $DEFAULT_PATH_EXCLUDE if $optVcs;
 }
@@ -387,12 +397,12 @@ sub HandleCommandLineArgs ()
 #
 #   INPUT PARAMETERS
 #
-#       $	Filename
+#       $       Filename
 #
 #   RETURN VALUES
 #
-#       true	File in exclude list
-#       false	File NOT in exclude list
+#       true    File in exclude list
+#       false   File NOT in exclude list
 #
 # ****************************************************************************
 
@@ -426,30 +436,30 @@ sub IsExclude ($)
 #
 #   INPUT PARAMETERS
 #
-#       $
-#	$
+#       $file
+#       $directory
 #
 #   RETURN VALUES
 #
-#       $
+#       $file
 #
 # ****************************************************************************
 
 sub Resolve ($$)
 {
     my $id = "$LIB.Resolve";
-    my ( $file, $direct ) = @ARG;
+    my ( $file, $directory ) = @ARG;
 
-    $ARG = $file;        # DO NOT 'local' this variable.
+    $ARG = $file;        # DO NOT 'local $ARG'. See caller code
 
-    m,^/, || s,^,$direct/,;
+    m,^/, || s,^,$directory/,;
 
     while ( s,/\.?/,/,  or  s,/[^/]+/\.\./,/,  or  s,/\.?$,, )
     {
-        #  run the substitutions
+	#  run the substitutions
     }
 
-    $ARG = '/'  if  $ARG eq "";
+    $ARG = "/"  unless $ARG;
 
     $ARG;
 }
@@ -459,12 +469,12 @@ sub Resolve ($$)
 #   DESCRIPTION
 #
 #       Scan a directory and print out the files in each directory in
-#	a pretty format. Note: recursive.
+#       a pretty format. Note: recursive.
 #
 #   INPUT PARAMETERS
 #
 #       $
-#	$
+#       $
 #
 #   RETURN VALUES
 #
@@ -479,35 +489,37 @@ sub Tree ($$)
     my $id = "$LIB.Tree";
     my ( $dir, $level ) = @ARG;
 
-    local *DIRECT;
+    opendir my $DIR, $dir
 
-    unless ( opendir DIRECT, $dir )
+    if ( $ERRNO )
     {
-        warn "Could not open directory $dir\n";
-        return;
+	warn "Could not open directory $dir\n";
+	return;
     }
 
-    my @files = readdir DIRECT ;
+    my @files = readdir $DIR;
+
+    close $DIR  or  warn "Close failure: $ERRNOR $dir";
 
     # sort out non-dirs to display first, then directories.
 
+    my ( @d, @f );
     local $ARG;
-    my ( @d, @f);
 
     for ( @files )
     {
-	-d "$dir/$ARG" and  push(@d, $ARG), next;
+	-d "$dir/$ARG"  and  push(@d, $ARG), next;
 	push @f, $ARG;
     }
 
-    @files = (sort(@f), sort (@d));		# Rearrange nicely
+    @files = (sort(@f), sort @d);               # Rearrange nicely
 
     while ( my $name = shift @files )
     {
-        #  Skip directories .  and  ..
-        next if $name =~ /^\.\.?$/;
+	#  Skip directories .  and  ..
+	next if $name =~ /^\.\.?$/;
 
-        $ARG = Resolve $name, $dir;
+	$ARG = Resolve $name, $dir;
 
 	next if IsExclude $ARG;
 
@@ -517,37 +529,37 @@ sub Tree ($$)
 
 	    print "$level$ARG\n";
 	}
-        elsif ( -d )
-        {
-            my $newname = $ARG;
+	elsif ( -d )
+	{
+	    my $newname = $ARG;
 
-            if ( -l $newname )
-            {
-                 #   Do not follow symlinks
+	    if ( -l $newname )
+	    {
+		 #   Do not follow symlinks
 
-                 $newname = readlink $ARG;
-                 print "$level+--$name -> $newname\n";
-            }
-            elsif ( -r _ && -x _ )
-            {
-                #   We must be able to enter a directory in order to tree it
+		 $newname = readlink $ARG;
+		 print "$level+--$name -> $newname\n";
+	    }
+	    elsif ( -r _ && -x _ )
+	    {
+		#   We must be able to enter a directory in order to tree it
 
-                print "$level+--$name/\n";
+		print "$level+--$name/\n";
 
-                if ( @files )
-                {
-                    Tree $newname, "$level|  ";
-                }
-                else
-                {
-                    Tree $newname, "$level   ";
-                }
-            }
-            else
-            {
-                print "$level\--$name/ (unreadable)\n";
-            }
-        }
+		if ( @files )
+		{
+		    Tree $newname, "$level|  ";
+		}
+		else
+		{
+		    Tree $newname, "$level   ";
+		}
+	    }
+	    else
+	    {
+		print "$level\--$name/ (unreadable)\n";
+	    }
+	}
     }
 }
 
