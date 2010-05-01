@@ -204,10 +204,6 @@ only directories:
 
 None.
 
-=head1 EXAMPLES
-
-None.
-
 =head1 ENVIRONMENT
 
 None.
@@ -349,7 +345,6 @@ sub HandleCommandLineArgs ()
 
     Getopt::Long::config( qw
     (
-	require_order
 	no_ignore_case
 	no_ignore_case_always
     ));
