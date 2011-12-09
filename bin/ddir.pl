@@ -95,7 +95,7 @@ sub Initialize ()
     $PROGNAME   = $LIB;
 
     $CONTACT     = "Jari Aalto";
-    $URL         = "http://freecode.net/projects/ddir";
+    $URL         = "http://freecode.com/projects/ddir";
 
     $OUTPUT_AUTOFLUSH = 1;
 }
@@ -232,7 +232,7 @@ wcd(1)
 
 =head1 AVAILABILITY
 
-Homepage is at http://freecode.net/projects/ddir
+Homepage is at http://freecode.com/projects/ddir
 
 =head1 AUTHOR
 
