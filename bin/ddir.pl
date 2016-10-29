@@ -36,13 +36,15 @@
 
 use strict;
 
-use autouse 'Pod::Text'     => qw(pod2text);
-use autouse 'Pod::Html'     => qw(pod2html);
-
 use English qw(-no_match_vars);
 use Getopt::Long;
 use File::Basename;
 #use File::Find;
+
+use autouse 'Pod::Text'     => qw(pod2text);
+use autouse 'Pod::Html'     => qw(pod2html);
+use Pod::Man;
+
 
 # ****************************************************************************
 #
@@ -57,7 +59,7 @@ use vars qw ($VERSION $DEFAULT_PATH_EXCLUDE);
 #   The following variable is updated by custom Emacs setup whenever
 #   this file is saved.
 
-my $VERSION = '2016.1029.1633';
+my $VERSION = '2016.1029.1637';
 
 my $DEFAULT_PATH_EXCLUDE =              # Matches *only path component
     '(CVS|RCS|\.(bzr|svn|git|darcs|arch|mtn|hg))$'
@@ -261,9 +263,6 @@ sub Help (;$$)
     }
     elsif ($type eq -man)
     {
-	eval "use Pod::Man"
-	    or die "$id: Cannot generate Man: $EVAL_ERROR";
-
 	my %options;
 	$options{center} = "User commands";
 
