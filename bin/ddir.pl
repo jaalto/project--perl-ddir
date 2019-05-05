@@ -36,13 +36,14 @@
 
 use strict;
 
-use autouse 'Pod::Text' => qw(pod2text);
-use autouse 'Pod::Html' => qw(pod2html);
-
 use English qw(-no_match_vars);
 use Getopt::Long;
 use File::Basename;
 #use File::Find;
+
+use autouse 'Pod::Text' => qw(pod2text);
+use autouse 'Pod::Html' => qw(pod2html);
+use Pod::Man;
 
 # ****************************************************************************
 #
@@ -50,14 +51,14 @@ use File::Basename;
 #
 # ****************************************************************************
 
-use vars qw($VERSION);
+use vars qw ($VERSION $DEFAULT_PATH_EXCLUDE);
 
 #   This is for use of Makefile.PL and ExtUtils::MakeMaker
 #
 #   The following variable is updated by custom Emacs setup whenever
 #   this file is saved.
 
-my $VERSION = '2019.0505.1643';
+my $VERSION = '2019.0505.1648';
 
 my $DEFAULT_PATH_EXCLUDE =              # Matches *only path component
     '(CVS|RCS|\.(bzr|svn|git|darcs|arch|mtn|hg))$'
@@ -93,9 +94,8 @@ sub Initialize ()
     $LICENSE    = "GPL-2+";
     $LIB        = basename $PROGRAM_NAME;
     $PROGNAME   = $LIB;
-
-    $CONTACT     = "Jari Aalto";
-    $URL         = "https://github.com/jaalto/project--perl-ddir";
+    $CONTACT    = "Jari Aalto";
+    $URL        = "https://github.com/jaalto/project--perl-ddir";
 
     $OUTPUT_AUTOFLUSH = 1;
 }
@@ -232,7 +232,7 @@ wcd(1)
 
 =head1 AVAILABILITY
 
-Homepage is at http://freecode.net/projects/ddir
+Homepage is at http://freecode.com/projects/ddir
 
 =head1 AUTHOR
 
@@ -262,9 +262,6 @@ sub Help(;$$)
     }
     elsif ($type eq -man)
     {
-	eval "use Pod::Man"
-	    or die "$id: Cannot generate Man: $EVAL_ERROR";
-
 	my %options;
 	$options{center} = "User commands";
 

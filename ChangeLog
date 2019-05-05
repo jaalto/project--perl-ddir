@@ -4,6 +4,11 @@
 
 	* bin/ddir.pl: Update to latest Perl.
 
+2016-10-29 Sat  Jari Aalto  <jari.aalto@cante.net>
+
+	* bin/ddir.pl: Adjust layout.
+	(Tree): Corrent opendir() statement.
+
 2010-05-01 Sat  Jari Aalto  <jari.aalto@cante.net>
 
 	* bin/ddir.pl (HandleCommandLineArgs): Remove
