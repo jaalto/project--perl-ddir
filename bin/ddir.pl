@@ -36,10 +36,10 @@
 
 use strict;
 
-use autouse 'Pod::Text'     => qw( pod2text );
-use autouse 'Pod::Html'     => qw( pod2html );
+use autouse 'Pod::Text' => qw(pod2text);
+use autouse 'Pod::Html' => qw(pod2html);
 
-use English qw( -no_match_vars );
+use English qw(-no_match_vars);
 use Getopt::Long;
 use File::Basename;
 #use File::Find;
@@ -50,14 +50,14 @@ use File::Basename;
 #
 # ****************************************************************************
 
-use vars qw ( $VERSION );
+use vars qw($VERSION);
 
 #   This is for use of Makefile.PL and ExtUtils::MakeMaker
 #
 #   The following variable is updated by custom Emacs setup whenever
 #   this file is saved.
 
-my $VERSION = '2010.0414.1424';
+my $VERSION = '2019.0505.1643';
 
 my $DEFAULT_PATH_EXCLUDE =              # Matches *only path component
     '(CVS|RCS|\.(bzr|svn|git|darcs|arch|mtn|hg))$'
@@ -95,7 +95,7 @@ sub Initialize ()
     $PROGNAME   = $LIB;
 
     $CONTACT     = "Jari Aalto";
-    $URL         = "http://freecode.net/projects/ddir";
+    $URL         = "https://github.com/jaalto/project--perl-ddir";
 
     $OUTPUT_AUTOFLUSH = 1;
 }
@@ -250,17 +250,17 @@ any later version.
 
 =cut
 
-sub Help (;$$)
+sub Help(;$$)
 {
     my $id   = "$LIB.Help";
     my $type = shift;  # optional arg, type
     my $msg  = shift;  # optional arg, why are we here...
 
-    if ( $type eq -html )
+    if ($type eq -html)
     {
 	pod2html $PROGRAM_NAME;
     }
-    elsif ( $type eq -man )
+    elsif ($type eq -man)
     {
 	eval "use Pod::Man"
 	    or die "$id: Cannot generate Man: $EVAL_ERROR";
@@ -273,7 +273,7 @@ sub Help (;$$)
     }
     else
     {
-	if ( $PERL_VERSION =~ /5\.10/ )
+	if ($PERL_VERSION =~ /5\.10/)
 	{
 	    # Bug in 5.10. Cant use string ("") as a symbol ref
 	    # while "strict refs" in use at
@@ -307,7 +307,7 @@ sub Help (;$$)
 #
 # ****************************************************************************
 
-sub HelpExclude ()
+sub HelpExclude()
 {
     my $id = "$LIB.HelpExclude";
 
@@ -330,7 +330,7 @@ sub HelpExclude ()
 #
 # ****************************************************************************
 
-sub HandleCommandLineArgs ()
+sub HandleCommandLineArgs()
 {
     my $id = "$LIB.HandleCommandLineArgs";
 
@@ -343,14 +343,14 @@ sub HandleCommandLineArgs ()
 	$OPT_FILE
     );
 
-    Getopt::Long::config( qw
+    Getopt::Long::config(qw
     (
 	no_ignore_case
 	no_ignore_case_always
     ));
 
-    my ( $help, $helpMan, $helpHtml, $version ); # local variables to function
-    my ( $helpExclude, $optDir, $optVcs );
+    my ($help, $helpMan, $helpHtml, $version); # local variables to function
+    my ($helpExclude, $optDir, $optVcs);
 
     $debug = -1;
     $OPT_FILE = 1;
@@ -383,7 +383,6 @@ sub HandleCommandLineArgs ()
     push @OPT_FILE_REGEXP_EXCLUDE, $DEFAULT_PATH_EXCLUDE if $optVcs;
 }
 
-
 # ****************************************************************************
 #
 #   DESCRIPTION
@@ -401,17 +400,17 @@ sub HandleCommandLineArgs ()
 #
 # ****************************************************************************
 
-sub IsExclude ($)
+sub IsExclude($)
 {
     my $id = "$LIB.IsExclude";
     local $ARG = shift;
 
     @OPT_FILE_REGEXP_EXCLUDE  or  return 0;
 
-    for my $re ( @OPT_FILE_REGEXP_EXCLUDE )
+    for my $re (@OPT_FILE_REGEXP_EXCLUDE)
     {
 
-	if ( /$re/ )
+	if (/$re/)
 	{
 	    $verb > 2  and  print "$id: '$re' matches: $ARG\n";
 	    return 1
@@ -440,16 +439,16 @@ sub IsExclude ($)
 #
 # ****************************************************************************
 
-sub Resolve ($$)
+sub Resolve($$)
 {
     my $id = "$LIB.Resolve";
-    my ( $file, $directory ) = @ARG;
+    my ($file, $directory) = @ARG;
 
     $ARG = $file;        # DO NOT 'local $ARG'. See caller code
 
     m,^/, || s,^,$directory/,;
 
-    while ( s,/\.?/,/,  or  s,/[^/]+/\.\./,/,  or  s,/\.?$,, )
+    while (s,/\.?/,/,  or  s,/[^/]+/\.\./,/,  or  s,/\.?$,,)
     {
 	#  run the substitutions
     }
@@ -477,31 +476,33 @@ sub Resolve ($$)
 #
 # ****************************************************************************
 
-sub Tree ($$);   # Forward declaration for recursive use.
+sub Tree($$);   # Forward declaration for recursive use.
 
-sub Tree ($$)
+sub Tree($$)
 {
     my $id = "$LIB.Tree";
-    my ( $dir, $level ) = @ARG;
+    my ($dir, $level) = @ARG;
 
-    opendir my $DIR, $dir
+    $ERRNO = "";
 
-    if ( $ERRNO )
+    opendir(my $DIR, $dir);
+
+    if ($ERRNO)
     {
-	warn "Could not open directory $dir\n";
+	warn "Could not open directory $dir '$ERRNO'\n";
 	return;
     }
 
     my @files = readdir $DIR;
 
-    close $DIR  or  warn "Close failure: $ERRNOR $dir";
+    close $DIR;
 
     # sort out non-dirs to display first, then directories.
 
-    my ( @d, @f );
+    my (@d, @f);
     local $ARG;
 
-    for ( @files )
+    for (@files)
     {
 	-d "$dir/$ARG"  and  push(@d, $ARG), next;
 	push @f, $ARG;
@@ -509,7 +510,7 @@ sub Tree ($$)
 
     @files = (sort(@f), sort @d);               # Rearrange nicely
 
-    while ( my $name = shift @files )
+    while (my $name = shift @files)
     {
 	#  Skip directories .  and  ..
 	next if $name =~ /^\.\.?$/;
@@ -518,30 +519,30 @@ sub Tree ($$)
 
 	next if IsExclude $ARG;
 
-	if ( $OPT_FILE  and  -f )
+	if ($OPT_FILE  and  -f)
 	{
 	    s,.*/,,;
 
 	    print "$level$ARG\n";
 	}
-	elsif ( -d )
+	elsif (-d)
 	{
 	    my $newname = $ARG;
 
-	    if ( -l $newname )
+	    if (-l $newname)
 	    {
 		 #   Do not follow symlinks
 
 		 $newname = readlink $ARG;
 		 print "$level+--$name -> $newname\n";
 	    }
-	    elsif ( -r _ && -x _ )
+	    elsif (-r _ && -x _)
 	    {
 		#   We must be able to enter a directory in order to tree it
 
 		print "$level+--$name/\n";
 
-		if ( @files )
+		if (@files)
 		{
 		    Tree $newname, "$level|  ";
 		}
@@ -574,7 +575,7 @@ sub Tree ($$)
 #
 # ****************************************************************************
 
-sub Main ()
+sub Main()
 {
     Initialize();
     HandleCommandLineArgs();
