@@ -53,12 +53,12 @@ use Pod::Man;
 
 use vars qw ($VERSION $DEFAULT_PATH_EXCLUDE);
 
-#   This is for use of Makefile.PL and ExtUtils::MakeMaker
+# This is for use of Makefile.PL and ExtUtils::MakeMaker
 #
-#   The following variable is updated by custom Emacs setup whenever
-#   this file is saved.
+# The following variable is updated by custom Emacs setup whenever
+# this file is saved.
 
-my $VERSION = '2025.0129.0438';
+my $VERSION = '2025.0129.0442';
 
 my $DEFAULT_PATH_EXCLUDE =              # Matches *only path component
     '(CVS|RCS|\.(bzr|svn|git|darcs|arch|mtn|hg))$'
@@ -352,7 +352,7 @@ sub HandleCommandLineArgs()
     $debug = -1;
     $OPT_FILE = 1;
 
-    GetOptions      # Getopt::Long
+    GetOptions # Getopt::Long
     (
 	  "dir"                 => \$optDir
 	, "help-exclude"        => \$helpExclude
@@ -447,7 +447,7 @@ sub Resolve($$)
 
     while (s,/\.?/,/,  or  s,/[^/]+/\.\./,/,  or  s,/\.?$,,)
     {
-	#  run the substitutions
+	# Run the substitutions
     }
 
     $ARG = "/"  unless $ARG;
@@ -509,8 +509,7 @@ sub Tree($$)
 
     while (my $name = shift @files)
     {
-	#  Skip directories .  and  ..
-	next if $name =~ /^\.\.?$/;
+	next if $name =~ /^\.\.?$/; # Skip directories .  and  ..
 
 	$ARG = Resolve $name, $dir;
 
@@ -528,14 +527,14 @@ sub Tree($$)
 
 	    if (-l $newname)
 	    {
-		 #   Do not follow symlinks
+		 # Do not follow symlinks
 
 		 $newname = readlink $ARG;
 		 print "$level+--$name -> $newname\n";
 	    }
 	    elsif (-r _ and -x _)
 	    {
-		#   We must be able to enter a directory in order to tree it
+		# We must be able to enter a directory in order to tree it
 
 		print "$level+--$name/\n";
 
