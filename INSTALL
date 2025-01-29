@@ -13,9 +13,4 @@ Manual install
         1. Copy bin/*.pl somewhere along $PATH
 	2. Copy manual page *.1 somewhere along $MANPATH
 
-License
-
-	This file is public domain. Originally written 2010 by Jari
-	Aalto.
-
 End of file
