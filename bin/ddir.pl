@@ -58,10 +58,10 @@ use vars qw ($VERSION $DEFAULT_PATH_EXCLUDE);
 # The following variable is updated by custom Emacs setup whenever
 # this file is saved.
 
-my $VERSION = '2025.0129.0442';
+my $VERSION = '2025.0129.0456';
 
 my $DEFAULT_PATH_EXCLUDE =              # Matches *only path component
-    '(CVS|RCS|\.(bzr|svn|git|darcs|arch|mtn|hg))$'
+    '(\.(bzr|svn|git|darcs|arch|mtn|hg)|CVS|RCS)$'
     ;
 
 # ****************************************************************************
@@ -142,13 +142,44 @@ differentiating the utility from an existing dir(1) program.
 
 Display only directories.
 
+=item B<-i, --include REGEXP>
+
+Include files matching regexp. The match is done against whole path. The option
+can be used multiple times.
+
+If this option is not supplied, every file is automatically included.
+The matches can be further filtered by using options B<--exclude>.
+
+=item B<-n, --no-exclude-vcs>
+
+Do not exclude version controlled dirs.
+
+=item B<-v, --verbose LEVEL>
+
+Print informational messages. Increase numeric LEVEL for more
+verbosity.
+
+=item B<-x, --exclude REGEXP>
+
+Ignore files matching regexp. The match is done against whole path. The option
+can be used multiple times.
+
+This option is applied after possible B<--include> matches.
+
+=item B<-X, --exclude-vcs>
+
+Enabled by default. Exclude version control directories.
+See B<--help-exclude>.
+
+Use B<--no-exclude-vcs> to include all in listing.
+
 =item B<-h, --help>
 
 Print text help
 
 =item B<--help-exclude>
 
-Print default exclude path value when B<--exclude-vcs> is used.
+Print default exclude value when B<--exclude-vcs> is used.
 
 =item B<--help-html>
 
@@ -158,33 +189,9 @@ Print help in HTML format.
 
 Print help in manual page C<man(1)> format.
 
-=item B<-i, --include REGEXP>
-
-Include files matching regexp. The match is done against whole path. The option
-can be used multiple times.
-
-If this option is not supplied, every file is automatically included.
-The matches can be further filtered by using options B<--exclude>.
-
-=item B<-v, --verbose LEVEL>
-
-Print informational messages. Increase numeric LEVEL for more
-verbosity.
-
 =item B<-V, --version>
 
 Print contact and version information.
-
-=item B<-x, --exclude REGEXP>
-
-Ignore files matching regexp. The match is done against whole path. The option
-can be used multiple times.
-
-This option is applied after possible B<--include> matches.
-
-=item B<-C, --exclude-vcs>
-
-Exclude version control directories. See B<--help-exclude>.
 
 =back
 
@@ -193,7 +200,7 @@ Exclude version control directories. See B<--help-exclude>.
 Show directory tree by excluding version control directories. Display
 only directories:
 
-    ddir --x-vcs --dir .
+    ddir --dir .
 
     .
     +--doc/
@@ -347,12 +354,13 @@ sub HandleCommandLineArgs()
     ));
 
     my ($help, $helpMan, $helpHtml, $version); # local variables to function
-    my ($helpExclude, $optDir, $optVcs);
+    my ($helpExclude, $optDir, $optVcs, $optVcsNot);
 
     $debug = -1;
     $OPT_FILE = 1;
+    $optVcs = 1;	    # On by default
 
-    GetOptions # Getopt::Long
+    GetOptions		    # Getopt::Long
     (
 	  "dir"                 => \$optDir
 	, "help-exclude"        => \$helpExclude
@@ -361,6 +369,7 @@ sub HandleCommandLineArgs()
 	, "h|help"              => \$help
 	, "v|verbose:i"         => \$verb
 	, "V|version"           => \$version
+	, "n|no-exclude-vcs"    => \$optVcsNot
 	, "x|exclude=s"         => \@OPT_FILE_REGEXP_EXCLUDE
 	, "X|exclude-vcs"       => \$optVcs
     );
@@ -374,6 +383,7 @@ sub HandleCommandLineArgs()
 
     $debug = 1          if $debug == 0;
     $debug = 0          if $debug < 0;
+    $optVcsNot          and $optVcs = 1;
 
     $OPT_FILE = 0       if $optDir;
 
