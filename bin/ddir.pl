@@ -4,7 +4,7 @@
 #
 #   Copyright
 #
-#       Copyright (C) 1995-2024 Jari Aalto
+#       Copyright (C) 1995-2025 Jari Aalto
 #       Copyright (C) 1994 Brian Blackmore
 #
 #   License
@@ -247,7 +247,7 @@ Jari Aalto
 
 =head1 LICENSE AND COPYRIGHT
 
-Copyright (C) 1995-2024 Jari Aalto.
+Copyright (C) 1995-2025 Jari Aalto.
 Copyright (C) 1994 Brian Blackmore.
 
 This program and its documentation is free software; you can
