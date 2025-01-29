@@ -58,7 +58,7 @@ use vars qw ($VERSION $DEFAULT_PATH_EXCLUDE);
 #   The following variable is updated by custom Emacs setup whenever
 #   this file is saved.
 
-my $VERSION = '2019.0505.1648';
+my $VERSION = '2025.0129.0438';
 
 my $DEFAULT_PATH_EXCLUDE =              # Matches *only path component
     '(CVS|RCS|\.(bzr|svn|git|darcs|arch|mtn|hg))$'
@@ -533,7 +533,7 @@ sub Tree($$)
 		 $newname = readlink $ARG;
 		 print "$level+--$name -> $newname\n";
 	    }
-	    elsif (-r _ && -x _)
+	    elsif (-r _ and -x _)
 	    {
 		#   We must be able to enter a directory in order to tree it
 
