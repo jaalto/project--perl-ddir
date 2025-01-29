@@ -69,7 +69,7 @@ INSTALL_SUID	= $(INSTALL) -m 4755
 INSTALL_DIR	= $(INSTALL) -m 755 -d
 
 DIST_DIR	= ../build-area
-DATE		= `date +"%Y.%m%d"`
+DATE		= $(shell date +"%Y.%m%d")
 VERSION		= $(DATE)
 RELEASE		= $(PACKAGE)-$(VERSION)
 
@@ -89,15 +89,18 @@ PERL		= perl
 docdir = doc/manual
 manpage = bin/$(PACKAGE).1
 
+.PHONY: all
 all: doc
 	# target: all
 	@echo "For more information, see 'make help'"
 
 # Rule: help - Display Makefile rules
+.PHONY: help
 help:
 	grep "^[[:space:]]*# Rule:" Makefile | sed 's/^[[:space:]]*//' | sort
 
 # Rule: clean - remove temporary files
+.PHONY: clean
 clean:
 	# target: clean
 	find .	-name "*[#~]" \
@@ -108,13 +111,16 @@ clean:
 
 	rm -rf tmp
 
+.PHONY: distclean
 distclean: clean
 	# Rule: distclean - remove everything that can be generated
 	rm -f $(manpage)
 	rm -rf $(docdir)
 
+.PHONY: realclean
 realclean: clean
 
+.PHONY: dist-git
 dist-git: test doc
 	rm -f $(DIST_DIR)/$(RELEASE)*
 
@@ -128,18 +134,23 @@ dist-git: test doc
 
 # The "gt" is maintainer's program frontend to Git
 # Rule: dist-snap - [maintainer] release snapshot from Git repository
+.PHONY: dist-snap
 dist-snap: test doc
 	@echo gt tar -q -z -p $(PACKAGE) -c -D master
 
 # Rule: dist-git - [maintainer] make release archive
+.PHONY: dist
 dist: dist-git
 
+.PHONY: dist-ls
 dist-ls:
 	@ls -1tr $(DIST_DIR)/$(PACKAGE)*
 
 # Rule: dist - [maintainer] list of release files
+.PHONY: ls
 ls: dist-ls
 
+.PHONY: docdir
 docdir:
 	# target: docdir - create documentation output directory
 	$(INSTALL_DIR) $(docdir)
@@ -163,29 +174,37 @@ doc/conversion/index.html: doc/conversion/index.txt
 	perl -S t2html.pl --Auto-detect --Out --print-url $<
 
 # Rule: man - Generate or update manual page
+.PHONY: man
 man: docdir $(manpage)
 
 # Rule: html - Generate HTML pages
+.PHONY: html
 html: docdir test-pod doc/manual/$(PACKAGE).html
 
 # Rule: txt - Generate TXT pages
+.PHONY: txt
 txt: docdir test-pod doc/manual/$(PACKAGE).txt
 
 # Rule: doc - Generate or update all documentation
+.PHONY: doc
 doc: man html txt
 
+.PHONY: test-pod
 test-pod:
 	# Rule: pod-test - Check POD syntax
 	podchecker $(PL_SCRIPT)
 
+.PHONY: test-perl
 test-perl:
 	# Rule: perl-test - Check program syntax
 	perl -cw $(PL_SCRIPT)
 
 # Rule: test - Run all tests
+.PHONY: test
 test: test-perl test-pod
 
 # Rule: install-doc - Install documentation
+.PHONY: install-doc
 install-doc:
 	$(INSTALL_BIN) -d $(DOCDIR)
 
@@ -195,6 +214,7 @@ install-doc:
 	$(TAR) -C doc $(TAR_OPT_NO) --create --file=- . | \
 	$(TAR) -C $(DOCDIR) --extract --file=-
 
+.PHONY: install-man
 install-man: man
 	# Rule: install-man - Install manual pages
 	$(INSTALL_BIN) -d $(MANDIR1)
@@ -210,17 +230,14 @@ install-bin:
 	done
 
 # Rule: install - Standard install. Use variables like: DESTDIR= prefix=/usr/local
+.PHONY: install
 install: install-bin install-man install-doc
 
 # Rule: install-test - [maintainer] Dry-run install to tmp/ directory
+.PHONY: install-test
 install-test:
 	rm -rf tmp
-	make DESTDIR=`pwd`/tmp prefix=/usr install
+	make DESTDIR=$(shell pwd)/tmp prefix=/usr install
 	find tmp | sort
-
-.PHONY: clean distclean realclean
-.PHONY: install install-bin install-man
-.PHONY: all man doc test install-test perl-test
-.PHONY: dist dist-git dist-ls ls
 
 # End of file
