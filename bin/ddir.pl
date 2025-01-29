@@ -58,7 +58,7 @@ use vars qw ($VERSION $DEFAULT_PATH_EXCLUDE);
 # The following variable is updated by custom Emacs setup whenever
 # this file is saved.
 
-my $VERSION = '2025.0129.0505';
+my $VERSION = '2025.0129.0513';
 my $CONTACT = "Jari Aalto";
 my $LICENSE = "GPL-2.0-or-later";        # See SPDX License List
 my $URL     = 'https://github.com/jaalto/project--perl-ddir';
@@ -236,7 +236,7 @@ wcd(1)
 
 =head1 AVAILABILITY
 
-Homepage is at http://freecode.com/projects/ddir
+Homepage is at https://github.com/jaalto/project--perl-ddir
 
 =head1 AUTHOR
 
