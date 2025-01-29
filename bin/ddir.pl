@@ -58,7 +58,10 @@ use vars qw ($VERSION $DEFAULT_PATH_EXCLUDE);
 # The following variable is updated by custom Emacs setup whenever
 # this file is saved.
 
-my $VERSION = '2025.0129.0456';
+my $VERSION = '2025.0129.0505';
+my $CONTACT = "Jari Aalto";
+my $LICENSE = "GPL-2.0-or-later";        # See SPDX License List
+my $URL     = 'https://github.com/jaalto/project--perl-ddir';
 
 my $DEFAULT_PATH_EXCLUDE =              # Matches *only path component
     '(\.(bzr|svn|git|darcs|arch|mtn|hg)|CVS|RCS)$'
@@ -86,16 +89,10 @@ sub Initialize ()
     (
 	$LIB
 	$PROGNAME
-	$CONTACT
-	$LICENSE
-	$URL
     );
 
-    $LICENSE    = "GPL-2+";
     $LIB        = basename $PROGRAM_NAME;
     $PROGNAME   = $LIB;
-    $CONTACT    = "Jari Aalto";
-    $URL        = "https://github.com/jaalto/project--perl-ddir";
 
     $OUTPUT_AUTOFLUSH = 1;
 }
@@ -254,6 +251,8 @@ This program and its documentation is free software; you can
 redistribute and/or modify program under the terms of GNU General
 Public license either version 2 of the License, or (at your option)
 any later version.
+
+See https://spdx.org/licenses/
 
 =cut
 
