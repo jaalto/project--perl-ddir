@@ -1,5 +1,7 @@
 2025-01-29 Wed  Jari Aalto  <jari.aalto@tuni.fi>
 
+	* INSTALL (INSTALL): update heading.
+
 	* ALL: update copyright years.
 
 	* bin/ddir.pl: Add -n, --no-exclude-vcs.
