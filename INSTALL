@@ -1,5 +1,5 @@
-INSTALL: ddir - Display DOS style hierarchical directory tree
--------------------------------------------------------------
+INSTALL: ddir - Display hierarchical directory tree
+---------------------------------------------------
 
 System wide install
 
