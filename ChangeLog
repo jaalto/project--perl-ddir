@@ -6,7 +6,7 @@
 
 	* Makefile (.PHONY): adjust.
 
-	* README (Optinal Depends): new.
+	* README (Optional Depends): new.
 
 2019-05-05 Sun  Jari Aalto  <jari.aalto@cante.net>
 
