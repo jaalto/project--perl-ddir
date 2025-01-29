@@ -22,16 +22,19 @@ Important files
 Project details
 
     Homepage
-      https://github.com/jaalto/project--perl-ddir
+        https://github.com/jaalto/project--perl-ddir
 
     To report bugs
-      See above
+        See above
 
     Source code repository
-      See above
+        See above
 
     Depends
-      Perl (any version). Uses only standard Perl libraries.
+        Perl (any version). Uses only standard Perl libraries.
+
+    Optional Depends
+	GNU make (any verison). To make doc/ directory.
 
 Copyright
 
