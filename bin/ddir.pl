@@ -58,7 +58,7 @@ use vars qw ($VERSION $DEFAULT_PATH_EXCLUDE);
 # The following variable is updated by custom Emacs setup whenever
 # this file is saved.
 
-my $VERSION = '2025.0204.0948';
+my $VERSION = '2025.0204.0950';
 my $CONTACT = "Jari Aalto";
 my $LICENSE = "GPL-2.0-or-later";        # See SPDX License List
 my $URL     = 'https://github.com/jaalto/project--perl-ddir';
@@ -497,7 +497,7 @@ sub Tree($$)
 
     local $ERRNO = "";
 
-    opendir(my $DIR, $dir);
+    opendir my $DIR, $dir;
 
     if ($ERRNO)
     {
