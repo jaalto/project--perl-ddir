@@ -58,7 +58,7 @@ use vars qw ($VERSION $DEFAULT_PATH_EXCLUDE);
 # The following variable is updated by custom Emacs setup whenever
 # this file is saved.
 
-my $VERSION = '2025.0204.0930';
+my $VERSION = '2025.0204.0941';
 my $CONTACT = "Jari Aalto";
 my $LICENSE = "GPL-2.0-or-later";        # See SPDX License List
 my $URL     = 'https://github.com/jaalto/project--perl-ddir';
@@ -87,8 +87,8 @@ sub Initialize ()
 {
     use vars qw
     (
-	$LIB
-	$PROGNAME
+        $LIB
+        $PROGNAME
     );
 
     $LIB        = basename $PROGRAM_NAME;
@@ -270,30 +270,30 @@ sub Help(;$$)
 
     if ($type eq -html)
     {
-	pod2html $PROGRAM_NAME;
+        pod2html $PROGRAM_NAME;
     }
     elsif ($type eq -man)
     {
-	my %options;
-	$options{center} = "User commands";
+        my %options;
+        $options{center} = "User commands";
 
-	my $parser = Pod::Man->new(%options);
-	$parser->parse_from_file ($PROGRAM_NAME);
+        my $parser = Pod::Man->new(%options);
+        $parser->parse_from_file ($PROGRAM_NAME);
     }
     else
     {
-	if ($PERL_VERSION =~ /5\.10/)
-	{
-	    # Bug in 5.10. Cant use string ("") as a
-	    # symbol ref while "strict refs" in use at
-	    # /usr/share/perl/5.10/Pod/Text.pm line 249.
+        if ($PERL_VERSION =~ /5\.10/)
+        {
+            # Bug in 5.10. Cant use string ("") as a
+            # symbol ref while "strict refs" in use at
+            # /usr/share/perl/5.10/Pod/Text.pm line 249.
 
-	    system "pod2text $PROGRAM_NAME";
-	}
-	else
-	{
-	    pod2text $PROGRAM_NAME;
-	}
+            system "pod2text $PROGRAM_NAME";
+        }
+        else
+        {
+            pod2text $PROGRAM_NAME;
+        }
     }
 
     defined $msg  and  print $msg;
@@ -345,17 +345,17 @@ sub HandleCommandLineArgs()
 
     use vars qw
     (
-	$test
-	$verb
-	$debug
-	@OPT_FILE_REGEXP_EXCLUDE
-	$OPT_FILE
+        $test
+        $verb
+        $debug
+        @OPT_FILE_REGEXP_EXCLUDE
+        $OPT_FILE
     );
 
     Getopt::Long::config(qw
     (
-	no_ignore_case
-	no_ignore_case_always
+        no_ignore_case
+        no_ignore_case_always
     ));
 
     my ($help, $helpMan, $helpHtml, $version); # local variables to function
@@ -363,20 +363,20 @@ sub HandleCommandLineArgs()
 
     $debug = -1;
     $OPT_FILE = 1;
-    $optVcs = 1;	    # On by default
+    $optVcs = 1;            # On by default
 
-    GetOptions		    # Getopt::Long
+    GetOptions              # Getopt::Long
     (
-	  "dir"                 => \$optDir
-	, "help-exclude"        => \$helpExclude
-	, "help-html"           => \$helpHtml
-	, "help-man"            => \$helpMan
-	, "h|help"              => \$help
-	, "v|verbose:i"         => \$verb
-	, "V|version"           => \$version
-	, "n|no-exclude-vcs"    => \$optVcsNot
-	, "x|exclude=s"         => \@OPT_FILE_REGEXP_EXCLUDE
-	, "X|exclude-vcs"       => \$optVcs
+          "dir"                 => \$optDir
+        , "help-exclude"        => \$helpExclude
+        , "help-html"           => \$helpHtml
+        , "help-man"            => \$helpMan
+        , "h|help"              => \$help
+        , "v|verbose:i"         => \$verb
+        , "V|version"           => \$version
+        , "n|no-exclude-vcs"    => \$optVcsNot
+        , "x|exclude=s"         => \@OPT_FILE_REGEXP_EXCLUDE
+        , "X|exclude-vcs"       => \$optVcs
     );
 
     $version            and  die "$VERSION $CONTACT $LICENSE $URL\n";
@@ -422,11 +422,11 @@ sub IsExclude($)
     for my $re (@OPT_FILE_REGEXP_EXCLUDE)
     {
 
-	if (/$re/)
-	{
-	    $verb > 2  and  print "$id: '$re' matches: $ARG\n";
-	    return 1
-	}
+        if (/$re/)
+        {
+            $verb > 2  and  print "$id: '$re' matches: $ARG\n";
+            return 1
+        }
     }
 
     return 0;
@@ -462,7 +462,7 @@ sub Resolve($$)
 
     while (s,/\.?/,/,  or  s,/[^/]+/\.\./,/,  or  s,/\.?$,,)
     {
-	# Run the substitutions
+        # Run the substitutions
     }
 
     $ARG = "/"  unless $ARG;
@@ -501,8 +501,8 @@ sub Tree($$)
 
     if ($ERRNO)
     {
-	warn "Could not open directory $dir '$ERRNO'\n";
-	return;
+        warn "Could not open directory $dir '$ERRNO'\n";
+        return;
     }
 
     my @files = readdir $DIR;
@@ -516,57 +516,57 @@ sub Tree($$)
 
     for (@files)
     {
-	-d "$dir/$ARG"  and  push(@d, $ARG), next;
-	push @f, $ARG;
+        -d "$dir/$ARG"  and  push(@d, $ARG), next;
+        push @f, $ARG;
     }
 
     @files = (sort(@f), sort @d);               # Rearrange nicely
 
     while (my $name = shift @files)
     {
-	next if $name =~ /^\.\.?$/; # Skip directories .  and  ..
+        next if $name =~ /^\.\.?$/; # Skip directories .  and  ..
 
-	$ARG = Resolve $name, $dir;
+        $ARG = Resolve $name, $dir;
 
-	next if IsExclude $ARG;
+        next if IsExclude $ARG;
 
-	if ($OPT_FILE  and  -f)
-	{
-	    s,.*/,,;
+        if ($OPT_FILE  and  -f)
+        {
+            s,.*/,,;
 
-	    print "$level$ARG\n";
-	}
-	elsif (-d)
-	{
-	    my $newname = $ARG;
+            print "$level$ARG\n";
+        }
+        elsif (-d)
+        {
+            my $newname = $ARG;
 
-	    if (-l $newname)
-	    {
-		 # Do not follow symlinks
+            if (-l $newname)
+            {
+                 # Do not follow symlinks
 
-		 $newname = readlink $ARG;
-		 print "$level+--$name -> $newname\n";
-	    }
-	    elsif (-r _ and -x _)
-	    {
-		# We must be able to enter a directory in order to tree it
+                 $newname = readlink $ARG;
+                 print "$level+--$name -> $newname\n";
+            }
+            elsif (-r _ and -x _)
+            {
+                # We must be able to enter a directory in order to tree it
 
-		print "$level+--$name/\n";
+                print "$level+--$name/\n";
 
-		if (@files)
-		{
-		    Tree $newname, "$level|  ";
-		}
-		else
-		{
-		    Tree $newname, "$level   ";
-		}
-	    }
-	    else
-	    {
-		print "$level\--$name/ (unreadable)\n";
-	    }
-	}
+                if (@files)
+                {
+                    Tree $newname, "$level|  ";
+                }
+                else
+                {
+                    Tree $newname, "$level   ";
+                }
+            }
+            else
+            {
+                print "$level\--$name/ (unreadable)\n";
+            }
+        }
     }
 }
 
