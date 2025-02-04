@@ -28,11 +28,11 @@
 #
 #       Origianally by Brian Blackmore. Modernized by Jari Aalto
 
-# ****************************************************************************
+# ********************************************************************
 #
 #   Standard perl modules
 #
-# ****************************************************************************
+# ********************************************************************
 
 use strict;
 
@@ -45,11 +45,11 @@ use autouse 'Pod::Text' => qw(pod2text);
 use autouse 'Pod::Html' => qw(pod2html);
 use Pod::Man;
 
-# ****************************************************************************
+# ********************************************************************
 #
 #   GLOBALS
 #
-# ****************************************************************************
+# ********************************************************************
 
 use vars qw ($VERSION $DEFAULT_PATH_EXCLUDE);
 
@@ -58,7 +58,7 @@ use vars qw ($VERSION $DEFAULT_PATH_EXCLUDE);
 # The following variable is updated by custom Emacs setup whenever
 # this file is saved.
 
-my $VERSION = '2025.0129.0513';
+my $VERSION = '2025.0204.0930';
 my $CONTACT = "Jari Aalto";
 my $LICENSE = "GPL-2.0-or-later";        # See SPDX License List
 my $URL     = 'https://github.com/jaalto/project--perl-ddir';
@@ -67,7 +67,7 @@ my $DEFAULT_PATH_EXCLUDE =              # Matches *only path component
     '(\.(bzr|svn|git|darcs|arch|mtn|hg)|CVS|RCS)$'
     ;
 
-# ****************************************************************************
+# ********************************************************************
 #
 #   DESCRIPTION
 #
@@ -81,7 +81,7 @@ my $DEFAULT_PATH_EXCLUDE =              # Matches *only path component
 #
 #       none
 #
-# ****************************************************************************
+# ********************************************************************
 
 sub Initialize ()
 {
@@ -97,7 +97,7 @@ sub Initialize ()
     $OUTPUT_AUTOFLUSH = 1;
 }
 
-# ****************************************************************************
+# ********************************************************************
 #
 #   DESCRIPTION
 #
@@ -111,7 +111,7 @@ sub Initialize ()
 #
 #       none
 #
-# ****************************************************************************
+# ********************************************************************
 
 =pod
 
@@ -125,13 +125,12 @@ ddir - display hierarchical directory tree
 
 =head1 DESCRIPTION
 
-Display an indented directory tree using ASCII graphical characters to
-represent the hierarchical structure. The directories to include or exclude
-can be specified with command line options. Ddir is a Perl implementation
-of the tree(1) program. The extra "d" in front of name was used to
-differentiating the utility from an existing dir(1) program.
+Displays an indented directory tree using ASCII graphical characters to
+represent the hierarchical structure. Directories to include or exclude
+can be specified with command-line options.
 
-=head1 OPTIONS
+ddir(1) is a Perl implementation of the tree(1) program. The extra
+"d" in its name differentiates it from the existing dir(1) program.
 
 =over 4
 
@@ -141,61 +140,68 @@ Display only directories.
 
 =item B<-i, --include REGEXP>
 
-Include files matching regexp. The match is done against whole path. The option
-can be used multiple times.
+Include files matching the specified regular
+expression. The match is performed against the entire
+path. This option can be used multiple times.
 
-If this option is not supplied, every file is automatically included.
-The matches can be further filtered by using options B<--exclude>.
+If this option is not supplied, all files are included
+by default. Matches can be further filtered using the
+B<--exclude> option.
 
 =item B<-n, --no-exclude-vcs>
 
-Do not exclude version controlled dirs.
+Do not exclude version-controlled directories.
 
 =item B<-v, --verbose LEVEL>
 
-Print informational messages. Increase numeric LEVEL for more
-verbosity.
+Display informational messages. Increase the numeric
+LEVEL for more verbosity.
 
 =item B<-x, --exclude REGEXP>
 
-Ignore files matching regexp. The match is done against whole path. The option
-can be used multiple times.
+Ignore files matching the specified regular expression.
+The match is performed against the entire path. This
+option can be used multiple times.
 
 This option is applied after possible B<--include> matches.
 
+B<--include> matches.
+
 =item B<-X, --exclude-vcs>
 
-Enabled by default. Exclude version control directories.
-See B<--help-exclude>.
+Enabled by default. Excludes version control
+directories. See B<--help-exclude> for details.
 
-Use B<--no-exclude-vcs> to include all in listing.
+Use B<--no-exclude-vcs> to include all files in the
+listing.
 
 =item B<-h, --help>
 
-Print text help
+Display this help page.
 
 =item B<--help-exclude>
 
-Print default exclude value when B<--exclude-vcs> is used.
+Display the default exclusion values used when
+B<--exclude-vcs> is enabled.
 
 =item B<--help-html>
 
-Print help in HTML format.
+Display help in HTML format.
 
 =item B<--help-man>
 
-Print help in manual page C<man(1)> format.
+Display help in manual page C<man(1)> format.
 
 =item B<-V, --version>
 
-Print contact and version information.
+Display version and contact information.
 
 =back
 
 =head1 EXAMPLES
 
-Show directory tree by excluding version control directories. Display
-only directories:
+Display the directory tree while excluding version control
+directories. Display only directories:
 
     ddir --dir .
 
@@ -278,8 +284,8 @@ sub Help(;$$)
     {
 	if ($PERL_VERSION =~ /5\.10/)
 	{
-	    # Bug in 5.10. Cant use string ("") as a symbol ref
-	    # while "strict refs" in use at
+	    # Bug in 5.10. Cant use string ("") as a
+	    # symbol ref while "strict refs" in use at
 	    # /usr/share/perl/5.10/Pod/Text.pm line 249.
 
 	    system "pod2text $PROGRAM_NAME";
@@ -294,7 +300,7 @@ sub Help(;$$)
     exit 0;
 }
 
-# ****************************************************************************
+# ********************************************************************
 #
 #   DESCRIPTION
 #
@@ -308,7 +314,7 @@ sub Help(;$$)
 #
 #       number      YYYY
 #
-# ****************************************************************************
+# ********************************************************************
 
 sub HelpExclude()
 {
@@ -317,7 +323,7 @@ sub HelpExclude()
     print "Default path exclude regexp: '$DEFAULT_PATH_EXCLUDE'\n";
 }
 
-# ****************************************************************************
+# ********************************************************************
 #
 #   DESCRIPTION
 #
@@ -331,7 +337,7 @@ sub HelpExclude()
 #
 #       Globally set options.
 #
-# ****************************************************************************
+# ********************************************************************
 
 sub HandleCommandLineArgs()
 {
@@ -389,7 +395,7 @@ sub HandleCommandLineArgs()
     push @OPT_FILE_REGEXP_EXCLUDE, $DEFAULT_PATH_EXCLUDE if $optVcs;
 }
 
-# ****************************************************************************
+# ********************************************************************
 #
 #   DESCRIPTION
 #
@@ -404,7 +410,7 @@ sub HandleCommandLineArgs()
 #       true    File in exclude list
 #       false   File NOT in exclude list
 #
-# ****************************************************************************
+# ********************************************************************
 
 sub IsExclude($)
 {
@@ -426,7 +432,7 @@ sub IsExclude($)
     return 0;
 }
 
-# ****************************************************************************
+# ********************************************************************
 #
 #   DESCRIPTION
 #
@@ -443,7 +449,7 @@ sub IsExclude($)
 #
 #       $file
 #
-# ****************************************************************************
+# ********************************************************************
 
 sub Resolve($$)
 {
@@ -464,7 +470,7 @@ sub Resolve($$)
     $ARG;
 }
 
-# ****************************************************************************
+# ********************************************************************
 #
 #   DESCRIPTION
 #
@@ -480,7 +486,7 @@ sub Resolve($$)
 #
 #       $
 #
-# ****************************************************************************
+# ********************************************************************
 
 sub Tree($$);   # Forward declaration for recursive use.
 
@@ -564,7 +570,7 @@ sub Tree($$)
     }
 }
 
-# ****************************************************************************
+# ********************************************************************
 #
 #   DESCRIPTION
 #
@@ -578,7 +584,7 @@ sub Tree($$)
 #
 #       None
 #
-# ****************************************************************************
+# ********************************************************************
 
 sub Main()
 {
