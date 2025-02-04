@@ -1,3 +1,14 @@
+2025-02-04 Tue  Jari Aalto  <jari.aalto@tuni.fi>
+
+	* bin/ddir.pl: Shorten comments separators
+	to column 70.
+	(Help): shorten mostly to column 55. correct
+	grammar.
+
+	* README (README): Adjust for Github
+	Web phone display. Limit text to
+	column 46.
+
 2025-01-29 Wed  Jari Aalto  <jari.aalto@tuni.fi>
 
 	* INSTALL (INSTALL): update heading.
@@ -5,7 +16,8 @@
 	* ALL: update copyright years.
 
 	* bin/ddir.pl: Add -n, --no-exclude-vcs.
-	Exclude VCS files by default. Remove Freecode URL.
+	Exclude VCS files by default.
+	Remove Freecode URL.
 	Clean up code.
 
 	* Makefile (.PHONY): adjust.
