@@ -58,7 +58,7 @@ use vars qw ($VERSION $DEFAULT_PATH_EXCLUDE);
 # The following variable is updated by custom Emacs setup whenever
 # this file is saved.
 
-my $VERSION = '2025.0204.0941';
+my $VERSION = '2025.0204.0948';
 my $CONTACT = "Jari Aalto";
 my $LICENSE = "GPL-2.0-or-later";        # See SPDX License List
 my $URL     = 'https://github.com/jaalto/project--perl-ddir';
@@ -495,7 +495,7 @@ sub Tree($$)
     my $id = "$LIB.Tree";
     my ($dir, $level) = @ARG;
 
-    $ERRNO = "";
+    local $ERRNO = "";
 
     opendir(my $DIR, $dir);
 
@@ -512,7 +512,7 @@ sub Tree($$)
     # sort out non-dirs to display first, then directories.
 
     my (@d, @f);
-    local $ARG;
+    local $ARG = "";
 
     for (@files)
     {
